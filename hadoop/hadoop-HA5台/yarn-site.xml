@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+<!-- Site specific YARN configuration properties -->
+<!-- Configurations for ResourceManager -->
+     <!-- <property>
+        <name>yarn.nodemanager.aux-services</name>
+      <value>mapreduce_shuffle</value>
+     </property>
+     <property>
+    <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+      <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+    <property>
+      <name>yarn.resourcemanager.resource-tracker.address</name>
+      <value>rubicksra:8031</value>
+    </property>
+    <property>
+      <name>yarn.resourcemanager.scheduler.address</name>
+      <value>rubicksra:8030</value>
+    </property>
+    <property>
+      <name>yarn.resourcemanager.address</name>
+      <value>rubicksra:8032</value>
+    </property>
+    <property>
+      <name>yarn.resourcemanager.webapp.address</name>                  //yarn的界面
+      <value>118.31.166.70:8088</value>
+    </property> -->
+
+
+  <property>
+     <name>yarn.nodemanager.aux-services</name>
+     <value>mapreduce_shuffle</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.ha.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.cluster-id</name>
+    <value>cluster1</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.ha.rm-ids</name>
+    <value>rm1,rm2</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.hostname.rm1</name>
+    <value>test-rubickr0</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.hostname.rm2</name>
+    <value>test-rubickr1</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.address.rm1</name>
+    <value>test-rubickr0:8088</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.address.rm2</name>
+    <value>test-rubickr1:8088</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.zk-address</name>
+    <value>test-rubickr0:2181,test-rubickr1:2181,test-rubickr2:2181,test-rubickr3:2181,test-rubickr4:2181</value>
+  </property>
+  <!-- 设置单个节点可以用来做计算的资源内存和vcores单位 此处32\14G -->
+  <property>
+    <name>yarn.nodemanager.resource.memory-mb</name>
+    <value>32768</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.resource.cpu-vcores</name>
+    <value>14</value>
+  </property>
+  <!-- 改变每个容器最大的内存和vcores30G/12（默认8192 MB per container /4vcores） -->
+  <!-- <property>
+    <name>yarn.scheduler.maximum-allocation-mb</name>
+    <value>30720</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.maximum-allocation-vcores</name>
+    <value></value>
+  </property> -->
+  <!-- 解决容器虚拟内存不足 container beyond the 'VIRTUAL' memory limit 2.5 GB of 2.1 GB virtual memory used -->
+  <property>
+     <name>yarn.nodemanager.vmem-check-enabled</name>
+      <value>false</value>
+      <description>Whether virtual memory limits will be enforced for containers</description>
+    </property>
+   <property>
+     <name>yarn.nodemanager.vmem-pmem-ratio</name>
+      <value>4</value>
+      <description>Ratio between virtual memory to physical memory when setting memory limits for containers</description>
+    </property>
+</configuration>

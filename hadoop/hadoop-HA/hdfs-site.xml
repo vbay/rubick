@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+  <!-- dfs.nameservices - the logical name for this new nameservice“新的名称服务”服务的逻辑名称 -->
+  <property>
+    <name>dfs.nameservices</name>
+    <value>mycluster</value>
+  </property>
+
+<!-- dfs.ha.namenodes.[nameservice ID] - unique identifiers for each NameNode in the nameservice 名称服务中每个namenode唯一标识  -->
+  <property>
+    <name>dfs.ha.namenodes.mycluster</name>
+    <value>nn1,nn2</value>
+  </property>
+
+<!-- dfs.namenode.rpc-address.[nameservice ID].[name node ID] - the fully-qualified RPC address for each NameNode to listen on -->
+<!-- 要监听的每个NameNode的完全限定RPC地址 -->
+  <property>
+    <name>dfs.namenode.rpc-address.mycluster.nn1</name>
+    <value>rubickr1:8020</value>
+  </property>
+  <property>
+    <name>dfs.namenode.rpc-address.mycluster.nn2</name>
+    <value>rubickr2:8020</value>
+  </property>
+
+
+<!-- dfs.namenode.http-address.[nameservice ID].[name node ID] - the fully-qualified HTTP address for each NameNode to listen on -->
+<!-- 要监听的每个NameNode的完全限定HTTP地址 -->
+  <property>
+    <name>dfs.namenode.http-address.mycluster.nn1</name>
+    <value>rubickr1:9870</value>
+  </property>
+  <property>
+    <name>dfs.namenode.http-address.mycluster.nn2</name>
+    <value>rubickr2:9870</value>
+  </property>
+
+
+<!-- dfs.namenode.shared.edits.dir - the URI which identifies the group of JNs where the NameNodes will write/read edits -->
+<!-- 标识NameNodes将写入/读取编辑的JN组的URI,配置JournalNodes地址 -->
+  <property>
+    <name>dfs.namenode.shared.edits.dir</name>
+    <value>qjournal://rubickr3:8485;rubickr4:8485;rubickr5:8485;rubickr6:8485;rubickr7:8485;rubickr8:8485/mycluster</value>
+  </property>
+
+<!-- dfs.client.failover.proxy.provider.[nameservice ID] - the Java class that HDFS clients use to contact the Active NameNode -->
+<!-- HDFS客户端用于联系Active NameNode的Java类，配置Java类的名称，DFS客户端将使用该名称来确定哪个NameNode是当前的Active，以及哪个NameNode当前正在为客户端请求提供服务。 -->
+  <property>
+    <name>dfs.client.failover.proxy.provider.mycluster</name>
+    <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+  </property>
+
+<!-- dfs.ha.fencing.methods - a list of scripts or Java classes which will be used to fence the Active NameNode during a failover -->
+<!-- 脚本或Java类的列表，用于在故障转移期间屏蔽Active NameNode -->
+<!--  dfs.ha.fencing.ssh.private-key-files sshfence选项通过SSH连接到目标节点，并使用fuser来终止侦听服务TCP端口的进程-->
+
+  <property>
+     <name>dfs.ha.fencing.methods</name>
+     <value>sshfence</value>
+   </property>
+   <property>
+     <name>dfs.ha.fencing.ssh.private-key-files</name>
+     <value>/root/.ssh/id_rsa</value>
+   </property>
+
+<!-- Configuring automatic failover  自动故障转移的配置-->
+   <property>
+      <name>dfs.ha.automatic-failover.enabled</name>
+      <value>true</value>
+   </property>
+
+
+    <!-- <property>
+      <name>dfs.namenode.secondary.http-address</name>
+      <value>rubicksra:50090</value>
+    </property> -->
+    <property>
+      <name>dfs.replication</name>
+      <value>3</value>
+    </property>
+    <property>
+      <name>dfs.namenode.name.dir</name>
+      <value>file:/var/lib/data/hadoop-ha/hdfs/name</value>
+    </property>
+    <property>
+      <name>dfs.datanode.data.dir</name>
+      <value>file:/var/lib/data/hadoop-ha/hdfs/data</value>
+    </property>
+</configuration>
